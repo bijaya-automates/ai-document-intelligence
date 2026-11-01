@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AI Document Intelligence</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 35px 16px;
+      font-family: Arial, sans-serif;
+      background: #f3f5fb;
+      color: #202943;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: auto;
+      padding: 32px;
+      background: white;
+      border: 1px solid #e5e9f2;
+      border-radius: 18px;
+      box-shadow: 0 12px 35px rgba(35, 48, 85, 0.07);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 13px;
+      background: #eeeaff;
+      border-radius: 20px;
+      color: #6952cb;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    h1 {
+      margin: 17px 0 9px;
+      font-size: 32px;
+      color: #202943;
+    }
+
+    h1 span {
+      color: #7059d7;
+    }
+
+    .subtitle {
+      color: #78829a;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .section {
+      margin-top: 25px;
+      padding: 23px;
+      background: #fbfcff;
+      border: 1px solid #e3e8f2;
+      border-radius: 13px;
+    }
+
+    .section h2 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      color: #33415f;
+    }
+
+    .description {
+      margin: 0 0 19px;
+      color: #8791a7;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .upload-area {
+      padding: 27px 15px;
+      border: 2px dashed #c9c2ef;
+      border-radius: 11px;
+      background: #f7f5ff;
+      text-align: center;
+    }
+
+    .upload-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    input[type="file"] {
+      display: block;
+      width: 100%;
+      margin-top: 15px;
+      color: #596781;
+      font-size: 13px;
+    }
+
+    .file-name {
+      margin-top: 12px;
+      color: #6651be;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      color: #34415d;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 105px;
+      padding: 14px;
+      border: 1px solid #dce2ee;
+      border-radius: 9px;
+      background: white;
+      color: #29344d;
+      font-family: inherit;
+      font-size: 15px;
+      resize: vertical;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: #8876e5;
+      box-shadow: 0 0 0 3px rgba(136, 118, 229, 0.12);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 17px;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: linear-gradient(100deg, #7358df, #477fe5);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 14px;
+      color: #596781;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .answer-box {
+      display: none;
+      margin-top: 22px;
+      padding: 19px;
+      border: 1px solid #dce2ee;
+      border-radius: 11px;
+      background: #f8f9fd;
+    }
+
+    .answer-box h3 {
+      margin: 0 0 12px;
+      color: #33415f;
+    }
+
+    #answer {
+      color: #34415d;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 14px;
+    }
+
+    .footer {
+      margin-top: 27px;
+      text-align: center;
+      color: #9aa2b4;
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 18px 10px;
+      }
+
+      .container {
+        padding: 20px 15px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .section {
+        padding: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header>
+      <span class="tag">AI POWERED DOCUMENT ASSISTANT</span>
+
+      <h1>AI <span>Document Intelligence</span></h1>
+
+      <p class="subtitle">
+        Upload your PDF and ask questions.
+        Get intelligent answers directly from your documents.
+      </p>
+    </header>
+
+    <section class="section">
+
+      <h2>01 — Upload Your Document</h2>
+
+      <p class="description">
+        Select a PDF document to begin.
+      </p>
+
+      <div class="upload-area">
+
+        <div class="upload-icon">📄</div>
+
+        <strong>Choose Your PDF File</strong>
+
+        <input
+          type="file"
+          id="pdfFile"
+          accept=".pdf,application/pdf"
+        >
+
+        <div class="file-name" id="fileName">
+          No document selected
+        </div>
+
+      </div>
+
+      <button type="button" id="uploadBtn">
+        Upload PDF
+      </button>
+
+      <p class="status" id="uploadStatus" aria-live="polite"></p>
+
+    </section>
+
+    <section class="section">
+
+      <h2>02 — Ask Your Document</h2>
+
+      <p class="description">
+        Ask anything related to the uploaded document.
+      </p>
+
+      <label for="question">Your Question</label>
+
+      <textarea
+        id="question"
+        placeholder="Example: Summarize the main points of this document..."
+      ></textarea>
+
+      <button type="button" id="askBtn" disabled>
+        Ask AI ✦
+      </button>
+
+      <p class="status" id="askStatus" aria-live="polite"></p>
+
+      <div class="answer-box" id="answerBox">
+        <h3>AI Answer</h3>
+        <div id="answer"></div>
+      </div>
+
+    </section>
+
+    <div class="footer">
+      Built with OpenAI • n8n Automation • RAG
+    </div>
+
+  </main>
+
+  <script>
+
+    // We will add both n8n Production Webhook URLs later.
+
+    const uploadWebhookUrl = "PASTE_UPLOAD_WEBHOOK_URL_HERE";
+
+    const queryWebhookUrl = "PASTE_QUERY_WEBHOOK_URL_HERE";
+
+
+    const pdfFile = document.getElementById("pdfFile");
+    const fileName = document.getElementById("fileName");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const askBtn = document.getElementById("askBtn");
+
+    const uploadStatus = document.getElementById("uploadStatus");
+    const askStatus = document.getElementById("askStatus");
+
+    const question = document.getElementById("question");
+    const answerBox = document.getElementById("answerBox");
+    const answer = document.getElementById("answer");
+
+    let uploadedFileName = "";
+    let documentUploaded = false;
+
+
+    pdfFile.addEventListener("change", function() {
+
+      const file = pdfFile.files[0];
+
+      documentUploaded = false;
+      uploadedFileName = "";
+      askBtn.disabled = true;
+
+      if (!file) {
+        fileName.textContent = "No document selected";
+        return;
+      }
+
+      if (
+        file.type !== "application/pdf" &&
+        !file.name.toLowerCase().endsWith(".pdf")
+      ) {
+        fileName.textContent = "Please select a PDF file.";
+        pdfFile.value = "";
+        return;
+      }
+
+      fileName.textContent = "Selected: " + file.name;
+      uploadStatus.textContent = "";
+
+    });
+
+
+    uploadBtn.addEventListener("click", async function() {
+
+      const file = pdfFile.files[0];
+
+      if (!file) {
+        uploadStatus.textContent = "Please select a PDF file first.";
+        return;
+      }
+
+      if (uploadWebhookUrl.includes("PASTE_")) {
+        uploadStatus.textContent = "Upload webhook is not connected yet.";
+        return;
+      }
+
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = "UPLOADING...";
+      uploadStatus.textContent = "Uploading and processing your document...";
+
+      const formData = new FormData();
+
+      formData.append("data", file);
+
+      try {
+
+        const response = await fetch(uploadWebhookUrl, {
+          method: "POST",
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error("Upload failed: " + response.status);
+        }
+
+        const result = await response.text();
+
+        uploadedFileName = file.name;
+        documentUploaded = true;
+
+        askBtn.disabled = false;
+
+        uploadStatus.textContent =
+          result || "Document uploaded successfully!";
+
+      } catch (error) {
+
+        console.error("Upload error:", error);
+
+        uploadStatus.textContent =
+          "Upload failed. Please check your n8n settings.";
+
+      } finally {
+
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "Upload PDF";
+
+      }
+
+    });
+
+
+    askBtn.addEventListener("click", async function() {
+
+      const userQuestion = question.value.trim();
+
+      if (!documentUploaded) {
+        askStatus.textContent = "Please upload your document first.";
+        return;
+      }
+
+      if (!userQuestion) {
+        askStatus.textContent = "Please enter your question.";
+        return;
+      }
+
+      if (queryWebhookUrl.includes("PASTE_")) {
+        askStatus.textContent = "Question webhook is not connected yet.";
+        return;
+      }
+
+      askBtn.disabled = true;
+      askBtn.textContent = "THINKING...";
+      askStatus.textContent = "Finding the answer in your document...";
+
+      answerBox.style.display = "none";
+
+      try {
+
+        const response = await fetch(queryWebhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            question: userQuestion,
+            fileName: uploadedFileName
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error("Request failed: " + response.status);
+        }
+
+        const contentType = response.headers.get("content-type") || "";
+        let answerText;
+
+        if (contentType.includes("application/json")) {
+
+          const data = await response.json();
+
+          answerText =
+            data.answer ||
+            data.output ||
+            data.text ||
+            JSON.stringify(data, null, 2);
+
+        } else {
+
+          answerText = await response.text();
+
+        }
+
+        answer.textContent = answerText;
+        answerBox.style.display = "block";
+
+        askStatus.textContent = "Answer generated successfully!";
+
+      } catch (error) {
+
+        console.error("Question error:", error);
+
+        askStatus.textContent =
+          "Connection failed. Please check n8n and webhook settings.";
+
+      } finally {
+
+        askBtn.disabled = false;
+        askBtn.textContent = "Ask AI ✦";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>

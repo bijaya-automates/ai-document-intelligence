@@ -277,7 +277,7 @@
         placeholder="Example: Summarize the main points of this document..."
       ></textarea>
 
-      <button type="button" id="askBtn" disabled>
+      <button type="button" id="askBtn">
         Ask AI ✦
       </button>
 
@@ -413,10 +413,7 @@
 
       const userQuestion = question.value.trim();
 
-      if (!documentUploaded) {
-        askStatus.textContent = "Please upload your document first.";
-        return;
-      }
+    
 
       if (!userQuestion) {
         askStatus.textContent = "Please enter your question.";

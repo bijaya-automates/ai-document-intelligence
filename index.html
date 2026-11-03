@@ -470,7 +470,7 @@
 
         }
 
-        answer.textContent = answerText;
+        answer.innerHTML = answerText.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
         answerBox.style.display = "block";
 
         askStatus.textContent = "Answer generated successfully!";

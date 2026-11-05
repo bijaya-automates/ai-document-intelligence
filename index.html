@@ -336,9 +336,9 @@ const supabaseClient = window.supabase.createClient(
 );
     // We will add both n8n Production Webhook URLs later.
 
-    const uploadWebhookUrl = "http://localhost:5678/webhook/4562b4b4-48c2-4ffc-a56d-6750f0f21eb5";
+    const uploadWebhookUrl = "http://127.0.0.1:3000/webhook/4562b4b4-48c2-4ffc-a56d-6750f0f21eb5";
 
-    const queryWebhookUrl = "http://localhost:5678/webhook/ask-document";
+    const queryWebhookUrl = "http://127.0.0.1:3000/webhook/ask-document";
 
 
     const pdfFile = document.getElementById("pdfFile");
@@ -409,10 +409,19 @@ const supabaseClient = window.supabase.createClient(
 
       try {
 
-        const response = await fetch(uploadWebhookUrl, {
-          method: "POST",
-          body: formData
-        });
+        const { data: { session } } = await supabaseClient.auth.getSession();
+
+if (!session) {
+  throw new Error("Please login first.");
+}
+
+const response = await fetch(uploadWebhookUrl, {
+  method: "POST",
+  headers: {
+    "Authorization": `Bearer ${session.access_token}`
+  },
+  body: formData
+});
 
         if (!response.ok) {
           throw new Error("Upload failed: " + response.status);
@@ -469,16 +478,23 @@ const supabaseClient = window.supabase.createClient(
 
       try {
 
-        const response = await fetch(queryWebhookUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            question: userQuestion,
-            fileName: uploadedFileName
-          })
-        });
+        const { data: { session } } = await supabaseClient.auth.getSession();
+
+if (!session) {
+  throw new Error("Please login first.");
+}
+
+const response = await fetch(queryWebhookUrl, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${session.access_token}`
+  },
+  body: JSON.stringify({
+    question: userQuestion,
+    fileName: uploadedFileName
+  })
+});
 
         if (!response.ok) {
           throw new Error("Request failed: " + response.status);

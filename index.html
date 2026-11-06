@@ -639,7 +639,9 @@ async function checkAuthSession() {
     updateAuthUI(data.session);
   if (data.session) {
     const { data: result, error } =
-        await supabaseClient.functions.invoke("document-auth");
+        await supabaseClient.functions.invoke("document-auth", {
+    body: { action: "verify" }
+});
 
     if (error) {
         authStatus.textContent =

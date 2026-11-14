@@ -73,3 +73,14 @@ Core application and both n8n workflows have been implemented and tested.
 ---
 
 Built with OpenAI, n8n, Supabase and Qdrant.
+
+## Project Demo Video
+
+Watch the recorded demonstration of the AI Document Intelligence workflow.
+
+[Watch Demo Video](AI-Document-Intelligence-Demo-Compressed.mp4)
+
+The demo covers:
+- PDF document upload
+- Asking questions about the uploaded document
+- Receiving AI-generated answers using RAG
